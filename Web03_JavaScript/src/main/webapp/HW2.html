@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>HW2</title>
+</head>
+<body>
+	<h1>HW2</h1>
+	<div id="output"></div>
+	<script type="text/javascript">
+		let output = document.getElementById('output');
+		
+		 for(let x = 1; x <= 9; x++) { // x는 for문 안에 지역변수
+			for(let y = 1; y <= 9; y++) { // x는 for문 안에 지역변수
+			output.innerHTML
+			+= '<h>' + x + 'x' + y + '=' + (x*y) + '</h>' + '<br>'; 
+			
+			}
+			output.innerHTML += '<h>' + '-----------------------------------------' + '</h>' + '<br>';
+		}
+		
+		for(let i = 1; i <= 7; i++) { // x는 for문 안에 지역변수
+			for(let j = 1; j <= 7; j++) { // x는 for문 안에 지역변수
+				if (j == 1 || j == 7 || i == 1 || i == 7 || i == j || (i+j) == 8) {
+					output.innerHTML += "＊";
+				} else
+					output.innerHTML += '　';
+				
+			}
+			output.innerHTML += '<br>';
+		}
+	</script>
+	
+	
+	
+</body>
+</html>

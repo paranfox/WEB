@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>while</title>
+</head>
+<body>
+	<h1>HW2</h1>
+	<div id="output"></div>
+	<script type="text/javascript">
+		let output = document.getElementById('output');
+		
+		// 1. 구구단 출력 2 ~ 9단까지
+		 for(let x = 2; x <= 9; x++) {
+			for(let y = 1; y <= 9; y++) {
+			output.innerHTML
+			+= '<h>' + x + 'X' + y + '=' + (x*y) + '</h>' + '<br>'; 
+			
+			}
+			output.innerHTML += '<hr>';
+		}
+		
+		 for(let i = 1; i <= 7; i++) { 
+				for(let j = 1; j <= 7; j++) {
+					if (j == 1 || j == 7 || i == 1 || i == 7 || i == j || (i+j) == 8) {
+						output.innerHTML += "＊";
+					} else
+						output.innerHTML += '　';
+					
+				}
+				output.innerHTML += '<br>';
+			}
+	</script>
+</body>
+</html>
