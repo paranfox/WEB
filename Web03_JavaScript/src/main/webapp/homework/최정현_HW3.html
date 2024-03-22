@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>네이버 회원가입</title>
+<script>
+function validateForm() {
+    var id = document.getElementById("id").value;
+    var password = document.getElementById("password").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+
+    // 아이디 검증
+    if (id.length < 5 || id.length > 20) {
+        document.getElementById("idMessage").innerHTML = "아이디는 5 ~ 20자여야 합니다.";
+        return false;
+    } else {
+        document.getElementById("idMessage").innerHTML = "";
+    }
+
+    // 비밀번호 검증
+    if (password.length < 8 || password.length > 16) {
+        document.getElementById("passwordMessage").innerHTML = "비밀번호는 8 ~ 16자여야 합니다.";
+        return false;
+    } else {
+        document.getElementById("passwordMessage").innerHTML = "가능한 비밀번호입니다.";
+    }
+
+    // 비밀번호 재확인 검증
+    if (password !== confirmPassword) {
+        document.getElementById("confirmPasswordMessage").innerHTML = "비밀번호가 일치하지 않습니다.";
+        return false;
+    } else {
+        document.getElementById("confirmPasswordMessage").innerHTML = "<span style='color: green;'>비밀번호가 일치합니다.</span>";
+    }
+
+    // 모든 조건 만족 시 폼 제출
+    return true;
+}
+
+function checkAvailability() {
+    var id = document.getElementById("id").value;
+    // 여기서는 간단한 예시로 "test1"이 이미 사용중이거나 탈퇴한 아이디로 가정합니다.
+    if (id === "test1") {
+        document.getElementById("idMessage").innerHTML = "이미 사용중이거나 탈퇴한 아이디입니다.";
+    } else {
+        document.getElementById("idMessage").innerHTML = "멋진 아이디네요!";
+    }
+}
+</script>
+</head>
+<body>
+<form onsubmit="return validateForm()">
+    <div>
+        <p>아이디:</p>
+        <input type="text" id="id" name="id" required onblur="checkAvailability()">
+        <p id="idMessage" style="color: red;"></p>
+    </div>
+    <div>
+        <p>비밀번호:</p>
+        <input type="password" id="password" name="password" required>
+        <p id="passwordMessage" style="color: red;"></p>
+    </div>
+    <div>
+        <p>비밀번호 재확인:</p>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+        <p id="confirmPasswordMessage" style="color: red;"></p>
+    </div>
+    <div>
+        <p>이름:</p>
+        <input type="text" id="name" name="name" required>
+    </div>
+    <div>
+        <p>생년월일:</p>
+        <input type="date" id="dob" name="dob" required>
+    </div>
+    <div>
+        <p>이메일:</p>
+        <input type="email" id="email" name="email" required>
+    </div>
+    <button type="submit">가입하기</button>
+</form>
+</body>
+</html>

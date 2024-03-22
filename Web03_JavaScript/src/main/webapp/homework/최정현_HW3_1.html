@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>최정현_HW3</title>
+</head>
+<body>
+	<form onsubmit="return AllCheck()">
+			<p>아이디:</p>
+			<input type="text" id="id" required onblur="checkId(this)">
+			<p id="idcheck" style="color: red"></p>
+			
+			<p>비밀번호:</p>
+			<input type="password" id="password" required onblur="checkpassword()">
+			<p id="passwordcheck" style="color: red"></p>
+			
+			<p>비밀번호 재확인:</p>
+			<input type="password" id="Passwordcheck" required>
+			<p id="passwordcheck2"></p>
+			
+			<p>이름:</p>
+			<input type="text" id="name" required>
+			
+			<p>생년월일:</p>
+			<input type="date" id="dob" required>
+			
+			<p>이메일:</p>
+			<input type="email" id="email" required>
+			
+		<button type="submit">가입하기</button>
+	</form>
+
+
+	<script type="text/javascript">
+	
+	function checkId(idck) {
+	    let id = document.getElementById("id").value;
+	    let idcheck = document.getElementById("idcheck");
+	    
+	    // 아이디 글자 수
+	    if (idck.length < 5 || idck.length > 20) {
+	    	idcheck.innerHTML = "아이디는 5 ~ 20자여야 합니다.";
+	        return false;
+	    } else {
+	    	idcheck.innerHTML = "";
+	    }
+	    // 아이디 중복
+	    if (id === "test1") {
+	    	idcheck.innerHTML = "";
+	    	idcheck.style.color = 'red';
+	    	idcheck.innerHTML = "이미 사용중이거나 탈퇴한 아이디입니다.";
+	    } else {
+	    	idcheck.innerHTML = "";
+	    	idcheck.style.color = 'green';
+	    	idcheck.innerHTML = "멋진 아이디네요!";
+	    }
+	}
+	
+
+	function checkpassword() {
+		 let password = document.getElementById("password");
+		  let Passwordcheck = document.getElementById("Passwordcheck");
+		  let Passwordcheck2 = document.getElementById("passwordcheck2");
+		    // 비밀번호 검증
+		    if (password.value.length < 8 || password.value.length > 16) {
+		    	Passwordcheck.innerHTML += "비밀번호는 8 ~ 16자여야 합니다.";
+		        return false;
+		    } else {
+		    	Passwordcheck.innerHTML += "가능한 비밀번호";
+		    }
+
+		    // 비밀번호 재확인 검증
+		    if (password !== Passwordcheck) {
+		    	Passwordcheck2.innerHTML += "비밀번호가 일치하지 않습니다.";
+		        return false;
+		    } else {
+		    	Passwordcheck2.innerHTML += "<p style='color: green;'>비밀번호가 일치합니다.</p>";
+		    }
+	}
+	
+	
+	function AllCheck() {
+
+	}
+
+	
+	</script>
+</body>
+</html>
