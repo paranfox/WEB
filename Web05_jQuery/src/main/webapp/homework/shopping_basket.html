@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>13번가</title>
+<script src="https://code.jquery.com/jquery-3.7.1.slim.js">
+	
+</script>
+<style type="text/css">
+li {
+	width: 200px;
+	height: 150px;
+	background-color: #f5d682;
+	border: 1px solid black;
+	list-style-type: none;
+}
+
+.total_amount {
+	width: 2000px;
+	height: 200px;
+	border: 1px solid red;
+}
+.sts_list {
+	float: left;
+}
+</style>
+</head>
+<body>
+	<div>캘로그 베스트 시리얼</div>
+	<div style="float: left; margin-right: 500px;">
+	
+		<ul class="item_list">
+			<li>
+				<div class="info">
+					<strong>호두그래놀라500g</strong>
+					<!-- 강조하는 태그 -->
+					<div class="price">
+						<p>판매가</p>
+						<span class="val">6500 원</span>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="info">
+					<strong>현미그래놀라500g</strong>
+					<div class="price">
+						<p>판매가</p>
+						<span class="val">6700 원</span>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="info">
+					<strong>땅콩그래놀라500g</strong>
+					<div class="price">
+						<p>판매가</p>
+						<span class="val">6500 원</span>
+					</div>
+				</div>
+			</li>
+		</ul>
+		
+	</div>
+	<div class="sts_list">
+		<ul class="selected_list">
+
+		</ul>
+	</div>
+	<div style="height: 500px;"></div>
+	<div class="total_amount">
+		<p class="all_count">총 개</p>
+		<p class="all_price">총 원</p>
+	</div>
+	<div>
+		<ul class="item_list"></ul>
+	</div>
+
+	
+	<script type="text/javascript">
+    $(document).ready(function() {
+        var selectedOptions = []; // 이미 선택된 요소들의 이름을 저장하는 배열
+        var totalCount = 0; // 총 개수를 저장할 변수
+        var totalAmount = 0; // 총 가격을 저장할 변수
+
+        // 각 li 요소를 선택(클릭)했을 때 정보를 출력
+        $('.item_list').on('click', 'li .info', function() {
+            var optionName = $(this).find('strong').text();
+            var optionPrice = $(this).find('.price .val').text();
+
+            console.log('optionName : ' + optionName);
+            console.log('optionPrice : ' + optionPrice);
+            
+            // 이미 선택된 요소인지 확인
+            if (selectedOptions.includes(optionName)) {
+                alert('이미 선택한 옵션입니다.');
+                return; // 이미 선택된 요소라면 함수 종료
+            }
+
+            // 선택된 요소 배열에 추가
+            selectedOptions.push(optionName);
+
+            // 선택된 요소를 화면에 추가
+            var optionItem = $('<li class="option_item"></li>');
+            var selectOptionName = $('<div class="option_name"></div>');
+            var selectOptionCount = $('<input class="option_count" type="number" value="1" readonly min="1"><br>');
+            var selectOptionDown = $('<button class="option_down">-</button>');
+            var selectOptionUp = $('<button class="option_up">+</button><br>');
+            var selectOptionPrice = $('<div class="option_price"></div><br>');
+            var selectOptionDelete = $('<button class="option_delete">X</button>');
+            
+            selectOptionName.text(optionName);
+            selectOptionPrice.text(optionPrice);
+
+            optionItem.append(selectOptionName);
+            optionItem.append(selectOptionCount);
+            optionItem.append(selectOptionDown);
+            optionItem.append(selectOptionUp);
+            optionItem.append(selectOptionPrice);
+            optionItem.append(selectOptionDelete);
+            
+            $('.selected_list').append(optionItem);
+
+            // 총 개수 갱신
+            updateTotalCount();
+            
+            // 총 가격 갱신
+            updateTotalAmount();
+            
+            // 버튼을 눌렀을 때 가격변동 액션
+            selectOptionDown.click(function() {
+                var count = parseInt(selectOptionCount.val(), 10);
+                if (count > 1) {
+                    count--;
+                    selectOptionCount.val(count);
+                    updateTotalAmount(); // 수량이 변경되면 총 가격 갱신
+                    updateTotalCount();
+                }
+            });
+
+            selectOptionUp.click(function() {
+                var count = parseInt(selectOptionCount.val(), 10);
+                count++;
+                selectOptionCount.val(count);
+                updateTotalAmount(); // 수량이 변경되면 총 가격 갱신
+                updateTotalCount();
+            });
+            
+            // 삭제 버튼을 눌렀을 때 해당 요소 삭제
+            selectOptionDelete.click(function() {
+                optionItem.remove(); // 해당 요소 삭제
+                var index = selectedOptions.indexOf(optionName);
+                if (index > -1) {
+                    selectedOptions.splice(index, 1); // 배열에서도 삭제
+                    updateTotalAmount(); // 요소가 삭제되면 총 가격 갱신
+                    updateTotalCount();
+                }
+            });
+        });
+   
+
+    });
+</script>
+
+</body>
+</html>
