@@ -3,43 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <title>13번가</title>
-<script src="https://code.jquery.com/jquery-3.7.1.slim.js">
-	
+<script src="https://code.jquery.com/jquery-3.7.1.slim.js"> /* 제이쿼리문 가져오는 스크립트 */
 </script>
-<style type="text/css">
-li {
+<style type="text/css"> /* CSS를 작성하는 곳 */
+li { /* li태그 전체 CSS */
 	width: 200px;
 	height: 150px;
 	background-color: #f5d682;
 	border: 1px solid black;
 	list-style-type: none;
 }
-
-.total_amount {
+.total_amount { /* total_amount클래스 CSS */
 	width: 2000px;
 	height: 200px;
 	border: 1px solid red;
 }
-.sts_list {
+.sts_list { /* sts_list클래스 CSS */
 	float: left;
 }
 </style>
 </head>
 <body>
-	<div>캘로그 베스트 시리얼</div>
+	<div>캘로그 베스트 시리얼</div> <!-- 제목 -->
 	<div>
-		<p>전체 체크<input type="checkbox" class="allcheck"></p>
+		<p>전체 체크<input type="checkbox" class="allcheck"></p> <!-- input태그 checkbox타입 allcheck클래스 -->
 	</div>
-	<div style="float: left; margin-right: 500px;">
+	<div style="float: left; margin-right: 500px;"> <!-- div를 float창으로 띄우고 왼쪽 정렬 margin을 right에 500px을 줌 -->
 	
-		<ul class="item_list">
+		<ul class="item_list"> <!-- item_list클래스 -->
 			<li>
-				<div class="info">
-					<strong>호두그래놀라500g</strong>
+				<div class="info"> <!-- info 클래스 -->
+					<strong>호두그래놀라500g</strong> <!-- strong태그 사용 -->
 					<!-- 강조하는 태그 -->
-					<div class="price">
+					<div class="price"> <!-- price클래스 -->
 						<p>판매가</p>
-						<span class="val">6500 원</span>
+						<span class="val">6500 원</span> <!-- val클래스 -->
 					</div>
 				</div>
 			</li>
@@ -64,43 +62,43 @@ li {
 		</ul>
 		
 	</div>
-	<div class="sts_list">
-		<ul class="selected_list">
+	<div class="sts_list"> <!-- sts_list클래스 -->
+		<ul class="selected_list"> <!-- selected_list클래스 -->
 
 		</ul>
 	</div>
-	<div style="height: 500px;"></div>
-	<div class="total_amount">
-		<p class="all_count">총 0개</p>
-		<p class="all_price">총 0원</p>
+	<div style="height: 500px;"></div> <!-- body태그에 붙어 있는 div태그의 위치 조정을 위한 빈칸 -->
+	<div class="total_amount"> <!-- total_amount클래스 -->
+		<p class="all_count">총 0개</p> <!-- all_count클래스 -->
+		<p class="all_price">총 0원</p> <!-- all_price클래스 -->
 	</div>
 	<div>
-		<ul class="item_list"></ul>
+		<ul class="item_list"></ul> <!-- item_list클래스 -->
 	</div>
 
 	
-	<script type="text/javascript">
-    $(document).ready(function() {
+	<script type="text/javascript"> /* 자바스크립트 작성할 곳 */
+    $(document).ready(function() { // HTML이 생성이 완료된 후 작업을 하는 함수
     	
         let selectedOptions = []; // 이미 선택된 요소들의 이름을 저장하는 배열
 
     	// 전체 선택 체크박스 기능 추가
-        $('.allcheck').change(function() {
-            $('.checkbox').prop('checked', $(this).prop('checked'));
+        $('.allcheck').change(function() { // .allcheck가 상태가 바뀌었다면 함수
+            $('.checkbox').prop('checked', $(this).prop('checked')); // .allcheck가 체크인 상태라면 .checkbox 전부 체크
             checkboxok(); // 전체 선택 체크박스 변경 시 체크된 요소만 업데이트
         });
         
         // 각 li 요소를 선택(클릭)했을 때 정보를 출력
-        $('.item_list').on('click', 'li .info', function() {
-            let optionName = $(this).find('strong').text();
-            let optionPrice = $(this).find('.price .val').text();
+        $('.item_list').on('click', 'li .info', function() { // .item_list가 포함한 li .info가 클릭했을 경우 작동하는 함수
+            let optionName = $(this).find('strong').text(); // .item_list에 포함된 strong태그에 있는 text를 찾아서 optionName변수에 넣음
+            let optionPrice = $(this).find('.price .val').text(); // .item_list에 포함된 .price부모밑 .val를 찾고 그 안에 text를 찾아서 optionPrice변수에 넣음
             
-            console.log('optionName : ' + optionName);
-            console.log('optionPrice : ' + optionPrice);
+            console.log('optionName : ' + optionName); // 값이 잘 들어갔는 지 체크하는 로그
+            console.log('optionPrice : ' + optionPrice); // 값이 잘 들어갔는 지 체크하는 로그
             
             // 이미 선택된 요소인지 확인
-            if (selectedOptions.includes(optionName)) {
-                alert('이미 선택한 옵션입니다.');
+            if (selectedOptions.includes(optionName)) { // 찾는 optionName이 selectedOptions배열안에 존재하는 지 찾는 if
+                alert('이미 선택한 옵션입니다.'); // alert창 생성
                 return; // 이미 선택된 요소라면 함수 종료
             }
 
@@ -118,11 +116,12 @@ li {
             let selectOptionPrice = $('<div class="option_price"></div><br>');
             let selectOptionDelete = $('<button class="option_delete">X</button>');
             
-            selectOptionName.text(optionName);
-            optionItem.prepend(div);
-            selectOptionName.prepend(checkBox);
-            selectOptionPrice.text(optionPrice);
+            selectOptionName.text(optionName); // selectOptionName안에 optionName값을 text로 추가
+            optionItem.prepend(div); // optionItem안쪽 맨 앞에 div값을 추가
+            selectOptionName.prepend(checkBox); // selectOptionName안쪽 맨 앞에 checkBox값을 추가
+            selectOptionPrice.text(optionPrice); // selectOptionPrice안에 optionPrice값을 text로 추가
 
+            // div안에 순서대로 값을 넣기
             div.append(selectOptionName);
             div.append(selectOptionCount);
             div.append(selectOptionDown);
