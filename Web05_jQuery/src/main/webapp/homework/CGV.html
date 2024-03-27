@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>좌석 예매</title>
+<style>
+    .seat {
+        width: 50px;
+        height: 50px;
+        background-color: #ccc;
+        margin: 5px;
+        text-align: center;
+        line-height: 50px;
+        cursor: pointer;
+    }
+    #selectedSeat {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    #price {
+        font-size: 24px;
+    }
+    .row {
+        display: flex;
+        justify-content: flex-start;
+    }
+</style>
+</head>
+<body>
+
+<h2>좌석 선택</h2>
+
+<div id="selectedSeat"></div>
+<div id="price"></div>
+
+<div id="seats">
+    <!-- 좌석 그리기 -->
+</div>
+
+<script>
+    const selectedSeatDisplay = document.getElementById('selectedSeat');
+    const priceDisplay = document.getElementById('price');
+    let selectedSeat = null;
+    const moviePrice = 16000; // 영화 가격
+
+    // 좌석 그리기
+    const seatsContainer = document.getElementById('seats');
+    const rows = ['A', 'B', 'C', 'D', 'E', 'F']; // A부터 F까지의 행
+
+    for (let row of rows) {
+        const rowElement = document.createElement('div');
+        rowElement.classList.add('row');
+        for (let i = 1; i <= 30; i++) {
+            const seat = document.createElement('div');
+            seat.classList.add('seat');
+            seat.dataset.id = `${row}-${i}`;
+            seat.textContent = `${row}-${i}`;
+            rowElement.appendChild(seat);
+        }
+        seatsContainer.appendChild(rowElement);
+    }
+
+    // 좌석 선택 이벤트 리스너
+    const seats = document.querySelectorAll('.seat');
+    seats.forEach(seat => {
+        seat.addEventListener('click', function() {
+            const seatId = this.getAttribute('data-id');
+            if (selectedSeat === seatId) {
+                // 선택한 좌석이 이미 선택된 상태이면 선택 취소
+                selectedSeat = null;
+                selectedSeatDisplay.textContent = "";
+                priceDisplay.textContent = "";
+            } else {
+                // 새로운 좌석 선택
+                selectedSeat = seatId;
+                selectedSeatDisplay.textContent = "선택한 좌석: " + selectedSeat;
+                priceDisplay.textContent = "영화 가격: " + moviePrice + "원";
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
