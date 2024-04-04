@@ -8,8 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.catalina.Session;
+import javax.servlet.http.HttpSession;
 
 /*
  * TODO : login.jsp 에서 입력받은 아이디, 패스워드를 DB의 데이터와 비교해서
@@ -29,7 +28,7 @@ public class LoginServlet extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		HttpSession session = request.getSession();
 		// request에서 파라미터 값을 읽어옵니다.
 	    String userid = request.getParameter("userid");
 	    String password = request.getParameter("password");
@@ -38,6 +37,9 @@ public class LoginServlet extends HttpServlet {
 	    int result = dao.login(userid, password);
 	    System.out.println(result);
 	    if(result == 1) {
+	    	session.setMaxInactiveInterval(60); // 60초
+    		// 세션에 키-값 저장하기
+    		session.setAttribute("userid", userid);
 	    	System.out.println(userid);
 			request.setAttribute("userid", userid);
 	    	RequestDispatcher dis = request.getRequestDispatcher("/loginResult.jsp");

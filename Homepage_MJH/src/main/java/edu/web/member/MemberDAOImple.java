@@ -71,7 +71,7 @@ public class MemberDAOImple implements MemberDAO, DBConnection {
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				if (rs.getString(1).equals(pw)) {
+				if (rs.getString(1).equals(id)) {
 					result = 1;
 				}
 			}
@@ -116,10 +116,13 @@ public class MemberDAOImple implements MemberDAO, DBConnection {
 				String email_agree = rs.getString(4);
 				String interest = rs.getString(5);
 				String[] interests = interest.split(",");
+				for(String po : interests) {
+					System.out.println(po); // 로그
+				}
 				String phone = rs.getString(6);
 				String introduce = rs.getString(7);
 
-				vo = new MemberVO(userid, password, email_agree, email, interests, phone, introduce);
+				vo = new MemberVO(userid, password, email, email_agree, interests, phone, introduce);
 			}
 
 		} catch (SQLException e) {
@@ -137,6 +140,74 @@ public class MemberDAOImple implements MemberDAO, DBConnection {
 		}
 
 		return vo;
+	}
+
+	@Override
+	public int update(String id, MemberVO vo) {
+		System.out.println("update() 호출");
+		int result = 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			DriverManager.registerDriver(new OracleDriver());
+			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			System.out.println("DB 연결 성공");
+			pstmt = conn.prepareStatement(SQL_UPDATE);
+			pstmt.setString(1, vo.getPassword());
+			pstmt.setString(2, vo.getEmail());
+			pstmt.setString(3, vo.getEmailAgree());
+			pstmt.setString(4, vo.getInterestJoin());
+			pstmt.setString(5, vo.getPhone());
+			pstmt.setString(6, vo.getIntroduce());
+			pstmt.setString(7, vo.getUserid());
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return result;
+	}
+
+	@Override
+	public int delete(String id) {
+		System.out.println("delete() 호출");
+		int result = 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			DriverManager.registerDriver(new OracleDriver());
+			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+			System.out.println("DB 연결 성공");
+			pstmt = conn.prepareStatement(SQL_DELETE);
+			pstmt.setString(1, id);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return result;
 	}
 
 }

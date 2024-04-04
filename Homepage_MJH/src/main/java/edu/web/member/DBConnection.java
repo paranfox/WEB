@@ -21,13 +21,27 @@ public interface DBConnection {
 	public static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME
 			+ " VALUES (?, ?, ?, ?, ?, ?, ?)";
 	
-	// SELECT PASSWORD FROM TEST_MEMBER WHERE USERID = 'test';
-	public static final String SQL_LOGIN = "SELECT " + COL_PASSWORD
-			+ " FROM " + TABLE_NAME + " WHERE " + COL_USERID + " = ? ";
+	// SELECT USERID FROM TEST_MEMBER WHERE USERID = 'test' AND PASSWORD = 'test';
+	public static final String SQL_LOGIN = "SELECT " + COL_USERID
+			+ " FROM " + TABLE_NAME + " WHERE " + COL_USERID + " = ? "
+			+ " AND " + COL_PASSWORD + " = ?";
 	
 	// SELECT * FROM TEST_MEMBER WHERE USERID = 'test';
-		public static final String SQL_SELECT = "SELECT * FROM "
-				+ TABLE_NAME + " WHERE " + COL_USERID + " = ? ";
+	public static final String SQL_SELECT = "SELECT * FROM "
+			+ TABLE_NAME + " WHERE " + COL_USERID + " = ? ";
 	
+	// UPDATE TEST_MEMBER SET PASSWORD = 'UPDATE@TEST.COM',
+	/*
+	 * EMAIL = '', EMAIL_AGREE = '', INTEREST = '', PHONE = '', INTRODUCE = '' WHERE
+	 * USERID = 'test';
+	 */
+	public static final String SQL_UPDATE = "UPDATE " + TABLE_NAME
+			+ " SET " + COL_PASSWORD + " = ?, " + COL_EMAIL + " = ?, " + COL_EMAIL_AGREE + " = ?, " 
+			+ COL_INTEREST + " = ?, " + COL_PHONE + " = ?, " + COL_INTRODUCE + " = ? "
+			+ " WHERE " + COL_USERID + " = ?";
+		
+	// DELETE TEST_MEMBER WHERE USERID = 'test';
+	public static final String SQL_DELETE = "DELETE " + TABLE_NAME
+			+ " WHERE " + COL_USERID + " = ?";
 	
 }

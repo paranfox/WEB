@@ -1,6 +1,8 @@
 package edu.web.member;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,6 +31,9 @@ public class RegisterServlet extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		
 		 // request에서 파라미터 값을 읽어옵니다.
 	    String userid = request.getParameter("userid");
 	    String password = request.getParameter("password");
@@ -44,8 +49,8 @@ public class RegisterServlet extends HttpServlet {
 	    // 이후에 MemberVO 객체를 이용하여 원하는 작업을 수행합니다.
 	    int result = dao.insert(member);
 	    System.out.println(result);
+	    out.println("<script>alert('회원 등록 성공'); location.href='/Homepage_MJH/login.jsp';</script>");
 	    
-	    response.sendRedirect("/Homepage_MJH/login.jsp");
 	}
 
 }

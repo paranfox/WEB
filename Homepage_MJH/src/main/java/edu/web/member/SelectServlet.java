@@ -30,9 +30,10 @@ public class SelectServlet extends HttpServlet {
 
         if(userid != null) {
         	 MemberVO vo = dao.select(userid);
-        	 System.out.println(" 성공");
+        	 System.out.println("회원정보 조회 성공");
+        	 request.setAttribute("vo", vo);
         	 RequestDispatcher dis = request.getRequestDispatcher("/memberResult.jsp");
- 			dis.forward(request, response);
+ 			 dis.forward(request, response);
  			
         } else {
             // 사용자가 로그인하지 않은 상태일 때 수행할 작업
