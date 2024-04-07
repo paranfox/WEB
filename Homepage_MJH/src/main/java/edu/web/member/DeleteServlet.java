@@ -23,7 +23,7 @@ public class DeleteServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		response.sendRedirect("/Homepage_MJH/login.jsp");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,14 +36,17 @@ public class DeleteServlet extends HttpServlet {
         	// 이후에 MemberVO 객체를 이용하여 원하는 작업을 수행합니다.
             int result = dao.delete(userId);
             if(result == 1) {
+            	session.removeAttribute("userid");
             out.println("<script>alert('회원 탈퇴 성공'); location.href='/Homepage_MJH/login.jsp';</script>");
         	 System.out.println("회원 탈퇴 성공");
             } else {
             	out.println("<script>alert('회원 탈퇴 실패');  location.href='select.do';</script>");
 				System.out.println("회원 탈퇴 실패");
 			}
-        	
-            
+        		  
+        		
+        		 
+        		  
         } else {
             // 사용자가 로그인하지 않은 상태일 때 수행할 작업
             response.sendRedirect("login.jsp");

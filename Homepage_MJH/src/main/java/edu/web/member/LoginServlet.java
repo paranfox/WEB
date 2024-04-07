@@ -37,9 +37,9 @@ public class LoginServlet extends HttpServlet {
 	    int result = dao.login(userid, password);
 	    System.out.println(result);
 	    if(result == 1) {
-	    	session.setMaxInactiveInterval(60); // 60초
     		// 세션에 키-값 저장하기
     		session.setAttribute("userid", userid);
+    		session.setMaxInactiveInterval(60); // 60초
 	    	System.out.println(userid);
 			request.setAttribute("userid", userid);
 	    	RequestDispatcher dis = request.getRequestDispatcher("/loginResult.jsp");

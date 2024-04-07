@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.websocket.CloseReason;
+
 import oracle.jdbc.OracleDriver;
 
 public class MemberDAOImple implements MemberDAO, DBConnection {
@@ -17,6 +19,26 @@ public class MemberDAOImple implements MemberDAO, DBConnection {
 		}
 		return instance;
 	}
+	// conn, pstmt 리소스 해제 함수
+	   private void closeResource(Connection conn, PreparedStatement pstmt) {
+	      try {
+	         pstmt.close();
+	         conn.close();
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      }
+	   }
+	   
+	   private void closeResource(Connection conn, PreparedStatement pstmt, ResultSet rs) {
+		      try {
+		         rs.close();
+		         pstmt.close();
+		         conn.close();
+		      } catch (SQLException e) {
+		         e.printStackTrace();
+		      }
+		   }
+
 
 	@Override
 	public int insert(MemberVO vo) {
@@ -43,13 +65,7 @@ public class MemberDAOImple implements MemberDAO, DBConnection {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			try {
-				pstmt.close();
-				conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			closeResource(conn, pstmt);
 		}
 
 		return result;
@@ -69,6 +85,7 @@ public class MemberDAOImple implements MemberDAO, DBConnection {
 			System.out.println("DB 연결 성공");
 			pstmt = conn.prepareStatement(SQL_LOGIN);
 			pstmt.setString(1, id);
+			pstmt.setString(2, pw);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				if (rs.getString(1).equals(id)) {
@@ -110,17 +127,17 @@ public class MemberDAOImple implements MemberDAO, DBConnection {
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				String userid = rs.getString(1);
-				String password = rs.getString(2);
-				String email = rs.getString(3);
-				String email_agree = rs.getString(4);
-				String interest = rs.getString(5);
+				String userid = rs.getString(COL_USERID);
+				String password = rs.getString(COL_PASSWORD);
+				String email = rs.getString(COL_EMAIL);
+				String email_agree = rs.getString(COL_EMAIL_AGREE);
+				String interest = rs.getString(COL_INTEREST);
 				String[] interests = interest.split(",");
 				for(String po : interests) {
 					System.out.println(po); // 로그
 				}
-				String phone = rs.getString(6);
-				String introduce = rs.getString(7);
+				String phone = rs.getString(COL_PHONE);
+				String introduce = rs.getString(COL_INTRODUCE);
 
 				vo = new MemberVO(userid, password, email, email_agree, interests, phone, introduce);
 			}
@@ -129,6 +146,7 @@ public class MemberDAOImple implements MemberDAO, DBConnection {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
+			closeResource(conn, pstmt, rs);
 			try {
 				pstmt.close();
 				conn.close();
@@ -141,6 +159,7 @@ public class MemberDAOImple implements MemberDAO, DBConnection {
 
 		return vo;
 	}
+
 
 	@Override
 	public int update(String id, MemberVO vo) {

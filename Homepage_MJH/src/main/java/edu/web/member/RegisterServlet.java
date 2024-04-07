@@ -16,7 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static MemberDAO dao;
-    
+	private static final String CLASSNAME
+ 	= RegisterServlet.class.getName(); // 클래스 위치와 이름 참조
+	
     public RegisterServlet() {
     	dao = MemberDAOImple.getInstance();
     }
@@ -25,8 +27,8 @@ public class RegisterServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// sendRedirect() : 특정 경로로 이동
 		// request는 소멸되기 때문에 데이터를 전송할 수 없음
-				
-		response.sendRedirect("/Homepage_MJH/index.jsp");
+		System.out.println(CLASSNAME + " doGet()");
+		response.sendRedirect("login.jsp");
 	}
 
 	
