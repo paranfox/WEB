@@ -15,6 +15,11 @@
 		// request는 form에서 전송된 데이터를 불러오는 parameter를 제공
 		// request 객체에 Form Data가 저장되고, getParameter()로 데이터 참조
 		
+		// http://localhost:8080/
+		// Web06_JSP_Servlet/
+		// ch12/result.jsp
+		// ?name=%EB%AA%A9%EC%A7%84%ED%98%81&age=20
+		
 		// * parameter와 attribute의 차이점
 		// - parameter와 attribute는 비슷한 기능을 수행
 		// - parameter는 html form 태그를 통해 전송을 수행
