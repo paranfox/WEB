@@ -20,7 +20,7 @@ if(str.charAt(0) == 'a') {
 	result = "not fruits";
 }
 
-%> 
+%>
 <%=result %>
  	<%-- <c:choose>
 	  	<c:when test="${param.txt == 'a' }">
