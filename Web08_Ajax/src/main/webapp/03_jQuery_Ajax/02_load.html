@@ -12,9 +12,8 @@
 	</div>
 	<button>외부 컨텐츠 가져오기</button>
 	<script type="text/javascript">
-		// * $(selector).load(URL, data, callback);
+		// - $(selector).load(URL, data, callback);
 		
-		// 시점에 따라 다르단 것을 잘 알고 있어야 한다.
 		$(document).ready(function(){
 			$('button').click(function(){
 				$('#output').load("01_demo_test.txt #p1", function(responseTxt, statusTxt, xhr){
@@ -28,9 +27,13 @@
 			});
 		});
 		
-		
 	</script>
-	
-	
 </body>
 </html>
+
+
+
+
+
+
+

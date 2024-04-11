@@ -12,19 +12,21 @@
 		// $.post(url, data, callback);
 		$(document).ready(function(){
 			$('button').click(function(){
-				$.post("05_post_test.jsp",
+				$.post("05_post_test.jsp", 
 						{
-							name : "mok",
+							name : "mok", 
 							city : "인천"
 						},
 						function(data, status){
 							alert("Data : " + data + "\n status : " + status);
 						}); // end post()
-			}); // end button.click()
+			});
 			
 		}); // end document
-		
 	</script>
-	
 </body>
 </html>
+
+
+
+

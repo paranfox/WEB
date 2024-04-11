@@ -28,17 +28,22 @@
 					data : {
 						id : "test", // request parameter
 						pw : "1234"
-					},
+					}, 
 					success : function(result) {
 						// result : ajax_test.do에서 작성된 내용을 리턴해서 저장한 결과
 						console.log(result);
 						$('#output').html(result);
 					}
 				}); // end ajax()
-			}) // end button.click()
+				
+			}); // end button.click()
 		}); // end document
 		
-		
 	</script>
+
 </body>
 </html>
+
+
+
+

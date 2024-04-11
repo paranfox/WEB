@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<a href="test.jsp">test.jsp로 가는 곳(이건 작동을 안해야 정상(스크롤이 원래대로 올라가 있어야 함))</a>
+	<p>1</p><br>
+	
+	
+	
+	<script type="text/javascript">
+	var scrollPosition;
+
+	// 페이지 로드될 때 스크롤 위치를 저장합니다.
+	window.onload = function() {
+	  scrollPosition = window.scrollY;
+	};
+
+	// F5를 눌렀을 때 스크롤 위치를 저장하고 페이지를 새로 고칩니다.
+	document.addEventListener("keydown", function(event) {
+	  if (event.keyCode === 116) { // F5 키의 keyCode는 116입니다.
+	    // 스크롤 위치를 저장합니다.
+	    scrollPosition = window.scrollY;
+	  }
+	});
+
+	// 페이지 새로 고침 후 저장된 스크롤 위치로 이동합니다.
+	window.onbeforeunload = function() {
+	  window.scrollTo(0, scrollPosition);
+	};
+
+	</script>
+</body>
+</html>

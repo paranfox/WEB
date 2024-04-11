@@ -11,8 +11,8 @@
 	<script type="text/javascript">
 	$(document).ready(function(){
 		$.ajax({
-			type : "get",
-			url : "06_json_test.txt",
+			type : "get", 
+			url : "06_json_test.txt", 
 			success : function(result) {
 				console.log(result);
 				console.log(typeof(result));
@@ -20,21 +20,19 @@
 				// 예시)
 				// 이름 : mok
 				// 나이 : 20
-				// 팻 : dog, 이름 : choco
-				// 팻 : cat, 이름 : navi
-				
+				// 펫 : dog, 이름 : choco
+				// 펫 : cat, 이름 : navi
+				// JSON -> JavaScript
 				let obj = JSON.parse(result);
-				
-                let output = "";
-                
-                output += "이름 : " + obj.name + "<br>";
-                output += "나이 : " + obj.age + "<br>";
-                	for(let i in obj.pets) {
-               		 output += "팻 : " + obj.pets[i].animal + ", 이름 : " + obj.pets[i].name + "<br>";
-                	}
-                
-                $("#output").html(output);
-                
+				console.log(typeof(obj));
+				let str = "";
+				str += "이름 : " + obj.name + "<br>";
+				str += "나이 : " + obj.age + "<br>";
+				for(let x in obj.pets) {
+					str += "펫 : " + obj.pets[x].animal + 
+							", 이름 : " + obj.pets[x].name + "<br>";
+				}
+				$('#output').html(str);
 			}
 		}); // end ajax()
 	}); // end document
@@ -42,3 +40,6 @@
 	
 </body>
 </html>
+
+
+

@@ -19,28 +19,32 @@
 		- 경량 데이터 교환 형태
 		- 이해하기 쉬움
 		- 언어 독립적(JSON 형태는 텍스트이므로, 모든 언어에서 읽을 수 있음)
-		
 	 -->
-	
-	
-	<div id="output"></div>
-	<script type="text/javascript">
-		// 자바스크립트 객체 사용
-		let person = {
-				name : "mok",
-				age : 20,
-				city : "incheon"
-		};
-		
-		// JSON 문자열
-		let str = {"name" : "mok"};
-		
-		console.log(typeof(person));
-		console.log(str);
-		
-		document.getElementById("output").innerHTML += person + '<br>';
-		document.getElementById("output").innerHTML += str;
-		
-	</script>
+	 
+	 <div id="output"></div>
+	 <script type="text/javascript">
+	 	// 자바스크립트 객체 사용
+	 	let person = {
+	 		name : "mok", 
+	 		age : 20,
+	 		city : "incheon"
+	 	};
+	 	
+	 	let str = {"name" : "mok"};
+	 	
+	 	console.log(typeof(person));
+	 	console.log(str);
+	 	
+	 	document.getElementById("output").innerHTML += person + '<br>';
+	 	document.getElementById("output").innerHTML += str;
+	 	
+	 </script>
 </body>
 </html>
+
+
+
+
+
+
+

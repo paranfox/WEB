@@ -5,5 +5,4 @@
 	String city = request.getParameter("city");
 	
 	out.write("name : " + name + ", city : " + city);
-
 %>
