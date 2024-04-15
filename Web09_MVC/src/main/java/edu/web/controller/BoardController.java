@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import edu.web.domain.BoardVO;
 import edu.web.persistence.BoardDAO;
 import edu.web.persistence.BoardDAOImple;
+import edu.web.util.PageCriteria;
+import edu.web.util.PageMaker;
 
 @WebServlet("*.do") // *.do : ~.do로 선언된 HTTP 호출에 대해 반응
 public class BoardController extends HttpServlet {
@@ -78,8 +80,34 @@ public class BoardController extends HttpServlet {
 		System.out.println("list()");
 		String path = BOARD_URL + LIST + EXTENSION;
 		
-		List<BoardVO> boardList = dao.select();
+//		List<BoardVO> boardList = dao.select();
+//		List<BoardVO> boardList = dao.select(1, 3);
+//		int page = Integer.parseInt(request.getParameter("page"));
+		// null이여도 상관이 없게 된다.
+		String page = request.getParameter("page");
+		
+		PageCriteria criteria = new PageCriteria();
+		if(page != null) {
+			criteria.setPage(Integer.parseInt(page));
+		}
+		
+		List<BoardVO> boardList = dao.select(criteria);
+		
 		request.setAttribute("boardList", boardList);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCriteria(criteria);
+		int totalCount = dao.getTotalCount();
+		pageMaker.setTotalCount(totalCount);
+		pageMaker.setPageData();
+		System.out.println("전체 게시글 수 : " + pageMaker.getTotalCount());
+		System.out.println("현제 선택된 페이지 : " + criteria.getPage());
+		System.out.println("한 페이지당 게시글 수 : " + criteria.getNumsPerPage());
+		System.out.println("페이지 링크 번호 개수 : " + pageMaker.getNumsOfPageLinks());
+		System.out.println("시작 페이지 링크 번호 : " + pageMaker.getStartPageNo());
+		System.out.println("끝 페이지 링크 번호 : " + pageMaker.getEndPageNo());
+		
+		request.setAttribute("pageMaker", pageMaker);
 		RequestDispatcher dis = request.getRequestDispatcher(path);
 		dis.forward(request, response);
 		
@@ -100,7 +128,6 @@ public class BoardController extends HttpServlet {
 	private void registerPOST(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
 		System.out.println("registerPOST()");
-		String path = MAIN + EXTENSION;
 		String memberid = request.getParameter("memberid");
 		String boardtitle = request.getParameter("boardtitle");
 		String boardcontent = request.getParameter("boardcontent");
@@ -109,8 +136,7 @@ public class BoardController extends HttpServlet {
 		
 		int result = dao.insert(board);
 		System.out.println(result);
-		RequestDispatcher dis = request.getRequestDispatcher(path);
-		dis.forward(request, response);
+		response.sendRedirect("index.jsp");
 		
 	} // end registerPOST()
 	

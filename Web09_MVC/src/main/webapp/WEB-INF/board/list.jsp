@@ -1,15 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="edu.web.domain.BoardVO" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
+<meta charset="UTF-8">
+<style type="text/css">
+table, th, td {
+   border-style : solid;
+   border-width : 1px;
+   text-align : center;
+}
+
+ul {
+   list-style-type : none;
+}
+
+li {
+   display : inline-block;
+}
+</style>
 <head>
-    <meta charset="UTF-8">
     <title>게시판 목록</title>
 </head>
 <body>
     <h1>게시판 목록 &nbsp; <button onclick="location.href='register.do'">글 작성하기</button></h1>
-    <table border="1">
+    <a href="register.do"><input type="button" value="글 작성"></a>
+    <table>
         <thead>
             <tr>
                 <th>ID</th>
@@ -19,7 +36,15 @@
             </tr>
         </thead>
         <tbody>
-            <% 
+        <c:forEach var="vo" items="${boardList }">
+        	<tr>
+        		<td>${vo.boardId }</td>
+        		<td><a href="detail.do?boardId=${vo.boardId }">${vo.boardTitle }</a></td>
+        		<td>${vo.memberId }</td>
+        		<td>${vo.boardDateCreated }</td>
+        	</tr>
+        </c:forEach>
+           <%--  <% 
             List<BoardVO> boardList = (List<BoardVO>) request.getAttribute("boardList");
             if (boardList != null) {
                 for (BoardVO board : boardList) {
@@ -33,9 +58,22 @@
             <% 
                 }
             }
-            %>
+            %> --%>
         </tbody>
     </table>
+    
+    <ul>
+    <c:if test="${pageMaker.hasPrev }">
+    	<li><a href="list.do?page=${pageMaker.startPageNo - 1 }">이전</a></li>
+    </c:if>
+    	<c:forEach begin="${pageMaker.startPageNo }" end="${pageMaker.endPageNo }"
+    		var="num">
+	    	<li><a href="list.do?page=${num }">${num }</a></li>
+    	</c:forEach>
+    <c:if test="${pageMaker.hasNext }">
+    	<li><a href="list.do?page=${pageMaker.endPageNo + 1 }">다음</a></li>
+    </c:if>
+    </ul>
     
 </body>
 </html>

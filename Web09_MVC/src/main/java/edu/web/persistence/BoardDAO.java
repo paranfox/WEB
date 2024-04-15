@@ -3,6 +3,7 @@ package edu.web.persistence;
 import java.util.List;
 
 import edu.web.domain.BoardVO;
+import edu.web.util.PageCriteria;
 
 public interface BoardDAO {
 	// 게시글 등록
@@ -20,6 +21,11 @@ public interface BoardDAO {
 	// 게시글 삭제
 	int delete(int boardId);
 	
+	// 게시글 페이징 처리
+	List<BoardVO> select(PageCriteria criteria);
+	
+	// 전체 게시물 갯수
+	int getTotalCount();
 }
 
 
