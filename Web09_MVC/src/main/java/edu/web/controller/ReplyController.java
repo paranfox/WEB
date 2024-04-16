@@ -1,6 +1,7 @@
 package edu.web.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -28,13 +30,75 @@ public class ReplyController extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest req, 
 			HttpServletResponse resp) throws ServletException, IOException {
-		String requsetURI = req.getRequestURI();
-		System.out.println(requsetURI);
+		String requestURI = req.getRequestURI();
+		System.out.println(requestURI);
 		
-		if(requsetURI.contains("add")) {
-			System.out.println("add 호출 확인");
-			replyAdd(req, resp);
+		if(requestURI.contains("add")) {
+    		System.out.println("add 호출 확인");
+    		replyAdd(req, resp);
+    	} else if(requestURI.contains("all")) {
+    		System.out.println("all 호출 확인");
+    		replyList(req, resp);
+    	} else if(requestURI.contains("update")) {
+    		System.out.println("update 호출 확인");
+    		replyUpdate(req, resp);
+    	} else if(requestURI.contains("delete")) {
+    		System.out.println("delete 호출 확인");
+    		replyDelete(req, resp);
+    	}
+		
+	}
+
+	// 전송된 데이터를 DB에 전달하여 댓글 삭제
+	// 삭제 후 성공 메시지를 클라이언트로 전송
+	private void replyDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException { // 예외처리
+		int replyId = Integer.parseInt(request.getParameter("replyId"));
+		int result = dao.delete(replyId);
+		if(result == 1) {
+			response.getWriter().append("success");
 		}
+	}
+
+	// 전송된 데이터를 DB에 전달하여 댓글 수정
+	// 수정 후 성공 메시지를 클라이언트로 전송
+	private void replyUpdate(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException { // 예외처리
+		int replyId = Integer.parseInt(request.getParameter("replyId"));
+		String replyContent = request.getParameter("replyContent");
+		ReplyVO vo = new ReplyVO(replyId, 0, "", replyContent, null);
+		int result = dao.update(vo);
+		if(result == 1) {
+			response.getWriter().append("success");
+		}
+		
+	}
+	
+
+	// 게시글 번호를 바탕으로 DB에서 댓글 리스트 조회
+    // 조회된 댓글 리스트를 JSON 형태로 변경하여 클라이언트에 전송
+    private void replyList(HttpServletRequest request, HttpServletResponse response) 
+    		throws ServletException, IOException { // 예외처리
+		System.out.println("replyList()");
+		int boardId = Integer.parseInt(request.getParameter("boardId"));
+		List<ReplyVO> list = dao.select(boardId);
+		
+		JSONArray jsonArray = new JSONArray();
+		for(int i = 0; i < list.size(); i++) {
+			JSONObject jsonObject = new JSONObject();
+			ReplyVO vo = list.get(i);
+			jsonObject.put("replyId", vo.getReplyId());
+			jsonObject.put("boardId", vo.getBoardId());
+			jsonObject.put("memberId", vo.getMemberId());
+			jsonObject.put("replyContent", vo.getReplyContent());
+			jsonObject.put("replyDateCreated", vo.getReplyDateCreated().toString());
+			jsonArray.add(jsonObject);
+		}
+		
+		// 확인해 봅시다!
+		System.out.println(jsonArray.toString());
+		response.getWriter().append(jsonArray.toJSONString());
+		// toString() or toJSONString() 둘 다 됩니다.
 		
 	}
 
