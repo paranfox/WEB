@@ -1,6 +1,7 @@
 <%@page import="edu.web.domain.BoardVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,15 +27,27 @@ BoardVO boardvo = (BoardVO) request.getAttribute("boardvo");
 		<label for="boardDate">게시및수정 된 날짜:</label><br>
 		<input type="text" id="boardDate" name="boardDate" value="${boardvo.boardDateCreated }" readonly="readonly" required> <br> 
 		<br>
+		<c:if test="${sessionScope.memberId == boardvo.memberId }">
 		<button onclick="updateForm()">게시글 수정하기</button> 
 		<button onclick="deleteForm()">게시글 삭제하기</button>
+		</c:if>
 		</form> <br>
 		
+		
+		<c:if test="${empty sessionScope.memberId }">
+			* 댓글은 로그인이 필요한 서비스입니다.
+			<a href="login.go?boardId=${boardvo.boardId }">로그인하기</a>
+		</c:if>
+		
+		<c:if test="${not empty sessionScope.memberId }">
+		${sessionScope.memberId }님, 이제 댓글을 작성할 수 있어요!
 		<div style="text-align: center;">
-			<input type="text" id="memberId">
+			<input type="text" id="memberId" value="${sessionScope.memberId }" readonly>
 			<input type="text" id="replyContent">
 			<button id="btnAdd">작성</button>
 		</div>
+		</c:if>
+		
 		<hr>
 		<div style="text-align: center;">
 			<div id="replies"></div>
@@ -79,6 +92,7 @@ BoardVO boardvo = (BoardVO) request.getAttribute("boardvo");
 					
 					// url에 boardId 전송
 					let url = 'replies/all?boardId=' + boardId;
+					let memberId = "${sessionScope.memberId }";
 					
 					// 가져올 데이터가 JSON이므로
 					// getJSON으로 파싱하는게 편리함
@@ -100,18 +114,26 @@ BoardVO boardvo = (BoardVO) request.getAttribute("boardvo");
 								// String을 date 타입으로 변경
 								let replyDataCreated = new Date(this.replyDateCreated);
 								
+								let disabled = '';
+								let readonly = '';
+								
+								if(memberId != this.memberId) {
+									disabled = 'disabled';
+									readonly = 'readonly';
+								}
+								
 								list += '<div class="reply_item">'
 								+ '<pre>'
 								+ '<input type="hidden" id="replyId" value="' + this.replyId +'">'
 								+ this.memberId
 								+ '&nbsp;&nbsp;' // 공백
-								+ '<input type="text" id="replyContent" value="' + this.replyContent + '">'
+								+ '<input type="text" id="replyContent" '+ readonly +' value="' + this.replyContent + '">'
 								+ '&nbsp;&nbsp;'
 								+ replyDataCreated
-								+ '<button class="btn_update">수정</button>'
-								+ '<button class="btn_delete">삭제</button>'
-								+ '</pre>'
-								+ '</div>';
+							    + '<button class="btn_update" '+disabled+'>수정</button>'
+							    + '<button class="btn_delete" '+disabled+'>삭제</button>'
+							    + '</pre>'
+							    + '</div>';
 								
 							}); // end each()
 							
@@ -174,6 +196,8 @@ BoardVO boardvo = (BoardVO) request.getAttribute("boardvo");
 					}); // end ajax()
 					
 				}); // end #replies.on()
+				
+				
 			}); // end document 
 		
 			function listForm() {
@@ -201,7 +225,7 @@ BoardVO boardvo = (BoardVO) request.getAttribute("boardvo");
 					location.href = "detail.do";
 				}
 			}
-		
+			
 		</script>
 </body>
 </html>

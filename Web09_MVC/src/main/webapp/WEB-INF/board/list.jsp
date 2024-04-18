@@ -25,6 +25,13 @@ li {
 </head>
 <body>
     <h1>게시판 목록 &nbsp; <button onclick="location.href='register.do'">글 작성하기</button></h1>
+    <c:if test="${empty sessionScope.memberId }">
+    	<a href="login.go"><input type="button" value="로그인"></a>
+    </c:if>
+    <c:if test="${not empty sessionScope.memberId }">
+    	 <a href="logout.go"><input type="button" value="로그아웃"></a>
+    </c:if>
+    
     <a href="register.do"><input type="button" value="글 작성"></a>
     <table>
         <thead>
